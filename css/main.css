@@ -1,0 +1,64 @@
+:root {
+  --white: #E3EDE8;
+  --black: #0F1F17;
+  --green-dark: #1F382C;
+  --green-mid: #1B784C;
+  --green-accent: #39AF6A;
+  --green-light: #88D2AD;
+  --yellow: #FFB833;
+  --red: #DE3A2F;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--green-dark);
+  background-image: url("../images/bg-elem.svg"), url("../images/bg-elem.svg");
+  background-size:88px 128px;
+  background-position: 0 0, 44px 64px;
+  background-repeat: repeat;
+
+  color: var(--white);
+
+  font-family: "Jersey 20", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+body {
+  background: linear-gradient(to right, rgba(4, 14, 9, 0.4) 0%,rgba(30, 54, 43, 0.4) 33%, rgba(30, 54, 43, 0.4) 67%, rgba(4, 14, 9, 0.4) 100%);
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  padding: 0;
+  
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 3rem;
+  color: var(--yellow);
+}
+
+
+
+
+
+
+
+
+
+/* =========================== MAIN CONTENT =========================== */
