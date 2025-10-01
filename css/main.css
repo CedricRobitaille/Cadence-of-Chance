@@ -7,8 +7,11 @@
   --green-light: rgba(136, 210, 173, .25);
   --yellow: #FFB833;
   --red: #DE3A2F;
+  --red-dark: #702A26;
 
   --green-dark-75: rgba(31, 56, 44, .85);
+  --yellow-20: rgba(255, 160, 7, .2);
+  --black-20: rgba(15, 31, 23, .2);
 }
 
 *,
@@ -40,7 +43,7 @@ body {
   overflow: hidden;
 }
 
-h1, h2, h3, h4, h5, p {
+h1, h2, h3, h4, h5, p, button {
   margin: 0;
   padding: 0;
   text-shadow: 2px 4px 1px rgba(6, 14, 10, 0.25);
@@ -58,14 +61,22 @@ h2 {
 
 h3 {
   font-size: 1.75rem;
-  text-align: left;
-}
-
-h4 {
-  font-size: 3.5rem;
   text-align: center;
 }
 
+h4 {
+  font-size: 3rem;
+  text-align: center;
+}
+
+button {
+  border: none;
+
+  font-family: "Jersey 20", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--white);
+}
 
 
 
@@ -94,6 +105,7 @@ h4 {
   display: inline-flex;
   flex-direction: column;
   gap: 4rem;
+  align-items: center;
 
   background-color: var(--green-mid);
   padding: 2.5rem 1.25rem;
@@ -110,7 +122,7 @@ h4 {
   width: 100%;
 
   background-color: var(--green-light);
-  padding: 1rem 4rem;
+  padding: .75rem 3rem;
   border-radius: 18px;
 }
 
@@ -127,14 +139,158 @@ h4 {
 .lights {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .light {
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1.25rem;
+  width: 1.25rem;
 
   background-color: var(--black);
   border-radius: .75rem;
+}
+
+.light-on {
+  background-color: var(--yellow);
+}
+
+/* DISPLAY COMPONENT */
+
+#display {
+  display: flex;
+  flex-direction: row;
+
+  background-color: var(--green-dark);
+  padding: 2.25rem;
+  border-radius: 32px;
+
+  box-shadow: inset 0px 4px 22px rgba(15, 31, 23, .25);
+}
+
+#display-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+
+  /* Fixes height to, 3 cells (padding + img) + (2x gap) + (container padding) */
+  height: calc(((4rem + 3.5rem) * 3) + (2px * 2) + (12px)); 
+  overflow: hidden;
+
+  background: radial-gradient(ellipse farthest-side at center, var(--green-mid) 0%, var(--black) 85%);
+  border-radius: 12px;
+  padding: 6px;
+
+  box-shadow: 0px 4px 8px rgba(15, 31, 23, .25);
+}
+
+.display-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.display-column:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.display-unit {
+  display: flex;
+  flex-direction: row;
+
+  background-color: var(--black);
+  padding: 1.75rem;
+}
+
+/* Cell Scoring depicts a cell that is being scored in a pattern */
+.cell-scoring {
+  display: flex;
+  flex-direction: row;
+  
+  background-color: var(--black);
+  background: radial-gradient(circle, var(--yellow-20) 0%, var(--black-20) 65%, var(--black) 100%);
+  padding: 1.75rem;
+}
+
+.slot-icon {
+  height: 4rem;
+  width: 4rem;
+  
+  object-fit: cover;
+}
+
+/* SLOT INFO COMPONENTS */
+
+#slot-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+}
+
+#slot-number {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.info-panel {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--green-light);
+  padding: .75rem 1.5rem .5rem 1.5rem;
+  border-radius: 12px;
+  gap: .65rem;
+}
+
+.score {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.score h3 {
+  text-align: left;
+}
+
+.score h4 {
+  font-size: 3.75rem;
+  letter-spacing: 1px;
+  min-width: 13rem;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.info-screen {
+  width: 100%;
+
+  background-color: var(--green-dark);
+  padding: .75rem 3rem;
+  border-radius: 8px;
+
+  color: var(--yellow);
+}
+
+#play-button button {
+  height: 100%;
+
+  background-color: var(--red);
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  font-size: 4rem;
+  letter-spacing: 2px;
+
+  box-shadow: 0px 8px 1px var(--black-20);
+  transition: .125s;
+}
+
+#play-button button:hover {
+  background-color: var(--red-dark);
+  cursor: pointer;
+
+  box-shadow: 0px 0px 1px var(--black-20);
 }
