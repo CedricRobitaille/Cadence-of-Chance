@@ -154,20 +154,77 @@ function setWeights() {
 }
 
 
+/**
+ * Generates a single random symbol name based off the weights for each symbol.
+ * @returns Symbol Name
+ */
 function randomSymbol() {
   const seedValue = Math.random() * 100;
-
   let weightTotal = 0;
 
   for (const symbol in symbols) {
     weightTotal += symbols[symbol].weight;
     if (seedValue <= weightTotal) {
-      console.log(symbol);
-      return symbols[symbol].image;
+      return symbol;
     }
   }
 }
 
+/**
+ * Builds a 2d array of random symbols.
+ * @param {number} boardSize - The length of each column
+ * @returns 2D Array of symbols. [column][row]
+ */
+function buildBoardArray(boardSize = 3) {
+  const boardArray = [];
+
+  if (boardSize < 3) { // Must have a minimum quanitity of tiles
+    boardSize = 3;
+  }
+
+  for (let column = 0; column < 5; column++) {
+    const columnArray = [];
+    for (let row = 0; row < boardSize; row++) {
+      columnArray.push(randomSymbol());
+    }
+    boardArray.push(columnArray);
+  }
+
+  return boardArray
+}
+
+
+/**
+ * Creates and displays the slot-machine display.
+ * Randomly generates a 2D array of symbols based on the weights/population of each symbols.
+ * @param {number} boardSize - Size of the board (measured by length of columns)
+ */
+function generateDisplay(boardSize = 3) {
+  console.log("Randomizing Board")
+  const boardArray = buildBoardArray(boardSize); // Starts by generating a 2D array of symbols
+  console.log("Board:", boardArray);
+
+  console.log("Building Display")
+
+  for (let column = 0; column < boardArray.length; column++) {
+    for (let row = 0; row < boardArray[column].length; row++) {
+      const cell = document.createElement("div");
+      cell.classList.add("display-unit");
+
+      const imageLink = gameData.symbols[boardArray[column][row]].image;
+      const image = document.createElement("img");
+      image.setAttribute("src", imageLink);
+      image.classList.add("slot-icon");
+
+      cell.appendChild(image);
+      displayColumns[column].appendChild(cell)
+    }
+  }
+
+  console.log("Display Built")
+}
+
+generateDisplay(3) // Generate display by default
 
 
 
