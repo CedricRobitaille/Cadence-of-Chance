@@ -33,6 +33,7 @@ html {
   font-weight: 400;
   font-style: normal;
 
+  position: relative;
 }
 
 body {
@@ -91,6 +92,11 @@ button {
 /* SLOT MACHINE */
 
 #slot-machine {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
   display: inline-flex;
   flex-direction: row;
   
@@ -134,6 +140,8 @@ button {
   background-color: var(--green-dark-75);
   padding: 1rem 1.5rem;
   border-radius: 16px;
+
+  white-space: nowrap;
 }
 
 .lights {
@@ -149,6 +157,8 @@ button {
 
   background-color: var(--black);
   border-radius: .75rem;
+
+  transition: .0625s;
 }
 
 .light-on {
