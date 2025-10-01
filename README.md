@@ -6,6 +6,10 @@ The goal is simple: spin the wheel, get rich, and build a deck strong enough to 
 
 While the slot machine is unpredictable, the real strategy comes from how you build your deck. Each run is differnt, and success depends on how well you adapt your deck to shift the odds back in your favor.
 
+> [!NOTE]
+> Want to try it yourself? 
+> [Check it out!](https://cedricrobitaille.github.io/Cadence-of-Chance/)
+
 <br>
 
 ## Mechanics
