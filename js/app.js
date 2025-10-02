@@ -563,7 +563,7 @@ function patternChecker(pattern, colStart, rowStart, length) {
     }
   }
 
-  arrows()
+  arrows();
   function arrows() {
     const upSymbol = currentPattern[0][2]
     const downSymbol = currentPattern[0][0]
@@ -601,7 +601,35 @@ function patternChecker(pattern, colStart, rowStart, length) {
     }
   }
 
+  eye();
+  function eye() {
+    const symbol = currentPattern[1][0]
 
+    for (let col = 0; col < 5; col++) {
+      for (let row = 0; row < 3; row++) {
+        if (currentPattern[col][row] != symbol) {
+          if (gameData["patterns"]["eye"].design[col][row] == 1) {
+            return
+          }
+        }
+      }
+    }
+    patternScore("eye", symbol)
+    patternAlert("eye")
+  }
 
+  jackpot();
+  function jackpot() {
+    const symbol = currentPattern[0][0]
+    for (let col = 0; col < 5; col++) {
+      for (let row = 0; row < 3; row++) {
+        if (currentPattern[col][row] != symbol) {
+          return;
+        }
+      }
+    }
+    patternScore("jackpot", symbol)
+    patternAlert("jackpot")
+  }
 
 }
