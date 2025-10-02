@@ -138,6 +138,8 @@ const gameData = {
         [1, 1, 1],
         [1, 1, 1],
       ],
+      verticalMove: 0,
+      horizontalMove: 0,
     },
 
     eye: {
@@ -149,6 +151,8 @@ const gameData = {
         [1, 1, 1],
         [0, 1, 0],
       ],
+      verticalMove: 0,
+      horizontalMove: 0,
     },
 
     arrow: {
@@ -161,6 +165,8 @@ const gameData = {
         [0, 0, 1],
       ],
       flip: true, // allows this to be flipped (arrow up / down)
+      verticalMove: 0,
+      horizontalMove: 0,
     },
 
     line5: {
@@ -172,7 +178,8 @@ const gameData = {
         [1],
         [1],
       ],
-      verticalMove: 2, // allows this pattern to shift vertically
+      verticalMove: 2,
+      horizontalMove: 0,
     },
 
     line4: {
@@ -183,8 +190,8 @@ const gameData = {
         [1],
         [1],
       ],
-      horizontalMove: 1, // allows this pattern to shift horizontally
       verticalMove: 2,
+      horizontalMove: 1,
     },
 
     line3: {
@@ -194,8 +201,8 @@ const gameData = {
         [1],
         [1],
       ],
-      horizontalMove: 2,
       verticalMove: 2,
+      horizontalMove: 2,
     },
 
     lineVertical: {
@@ -203,7 +210,8 @@ const gameData = {
       design: [
         [1, 1, 1],
       ],
-      horizontalMove: 4,
+      verticalMove: 2,
+      horizontalMove: 2,
     },
 
     diagonal: {
@@ -214,6 +222,7 @@ const gameData = {
         [1, 0, 0],
       ],
       flip: true,
+      verticalMove: 0,
       horizontalMove: 2,
     },
   },
@@ -223,6 +232,8 @@ const gameData = {
 }
 
 const symbols = gameData.symbols;
+const patterns = gameData.patterns;
+let currentPattern = [];
 
 setWeights(); // Initializes the weights
 
@@ -280,7 +291,7 @@ function buildBoardArray(boardSize = 3) {
     }
     boardArray.push(columnArray);
   }
-
+  currentPattern = boardArray
   return boardArray
 }
 
@@ -315,7 +326,7 @@ function generateDisplay(boardSize = 3) {
   console.log("Display Built")
 }
 
-generateDisplay(5) // Generate original display configuration
+generateDisplay(3) // Generate original display configuration
 
 
 
@@ -373,17 +384,6 @@ generateDisplay(5) // Generate original display configuration
  */
 
 
-// NOTE:
-// 1 = true;
-// 0 = false;
-
-// Pattern Values: -> [0, 0, 1] (1 = true, 2 = false)
-// value: Price
-// design: array
-// flip: true/false
-// horizontalMove: #
-// verticalMove: #
-
 
 /**
  * Visually announces to the user which symbols are a part of a pattern
@@ -413,6 +413,65 @@ function patternScore(pattern) {
  * Compares the 2d display array the defined patterns.
  * Once a pattern is confirmed, send to Pattern Alert and Pattern Score
  */
+patternChecker()
 function patternChecker() {
 
+
+  // NOTE:
+  // 1 = true;
+  // 0 = false;
+
+  // Pattern Values: -> [0, 0, 1] (1 = true, 2 = false)
+  // value: Price
+  // design: array
+  // flip: true/false
+  // horizontalMove: #
+  // verticalMove: #
+
+  // Alright, hope you're ready... cuz this is about to get fricking complicated...
+  for (const symbol in symbols) {
+    
+    for (const pattern in patterns) {
+
+      const patternName = pattern;
+      const design = patterns[pattern].design;
+      const price = patterns[pattern].price;
+      const flip = patterns[pattern].flip;
+      const horizontalMove = patterns[pattern].horizontalMove;
+      const verticalMove = patterns[pattern].verticalMove;
+
+      const designWidth = design[0].length;
+      const designHeight = design.length;
+      
+
+      console.log(pattern)
+      for (let columnMove = 0; columnMove < verticalMove+1; columnMove++) {
+        for (let rowMove = 0; rowMove < horizontalMove+1; rowMove++) {
+
+          const result = filter();
+          function filter() {
+            for (let column = columnMove; column < designWidth - columnMove; column++) {
+              for (let row = rowMove; row < designHeight - rowMove; row++) {
+                if (currentPattern[column][row] !== symbol) {
+                  console.log("BROKEN")
+                  return false;
+                }
+              }
+            }
+            return true;
+          }
+          
+          if (result) {
+            console.log("SUCCESS")
+            console.log(`${symbol}, ${patternName} at ${columnMove} ${rowMove} `)
+          }
+          
+
+        } //Horizontal Flip End
+      } // Vertical Flip End
+
+    } // Pattern End
+
+  } // Symbol End
+    
 }
