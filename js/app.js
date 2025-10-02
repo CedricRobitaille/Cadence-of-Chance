@@ -228,7 +228,18 @@ const gameData = {
       horizontalMove: 2,
     },
 
-    diagonal: {
+    diagonalDR: {
+      value: 1,
+      design: [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+      ],
+      flip: true,
+      verticalMove: 0,
+      horizontalMove: 2,
+    },
+    diagonalUR: {
       value: 1,
       design: [
         [0, 0, 1],
@@ -518,7 +529,38 @@ function patternChecker(pattern, colStart, rowStart, length) {
 
   diagonal();
   function diagonal() {
-    
+
+    let symbol = "";
+
+    // Down Right pattern
+    for (let range = 0; range < 3; range++) { // diag is 3 across, need to scan 3 extra lanes
+      symbol = currentPattern[range][0] // first elem
+      let count = 1;
+      for (let cell = 1; cell < 3; cell++) { // each cell
+        if (symbol == currentPattern[range + cell][cell] && gameData["patterns"]["diagonalDR"].design[cell][cell] == 1) {
+          count++;
+        }
+      }
+      if (count === 3) {
+        patternScore("diagonalDR", symbol)
+        patternAlert("diagonalDR", range)
+      }
+    }
+
+    // Up Right Pattern
+    for (let range = 0; range < 3; range++) {
+      symbol = currentPattern[range][2] // first elem
+      let count = 1;
+      for (let cell = 1; cell < 3; cell++) { // each cell
+        if (symbol == currentPattern[range + cell][2-cell] && gameData["patterns"]["diagonalUR"].design[cell][2-cell] == 1) {
+          count++;
+        }
+      }
+      if (count === 3) {
+        patternScore("diagonalUR", symbol)
+        patternAlert("diagonalUR", range)
+      }
+    }
   }
 
   arrows()
