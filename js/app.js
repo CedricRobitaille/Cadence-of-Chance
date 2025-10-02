@@ -128,7 +128,98 @@ const gameData = {
       value: 32,
     }
   },
+  patterns: {
+    Jackpot: {
+      value: 24,
+      design: [   // [Column][Row]
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+      ],
+    },
 
+    eye: {
+      value: 12,
+      design: [
+        [0, 1, 0],
+        [1, 1, 1],
+        [1, 0, 1],
+        [1, 1, 1],
+        [0, 1, 0],
+      ],
+    },
+
+    arrow: {
+      value: 6,
+      design: [
+        [0, 0, 1],
+        [0, 1, 0],
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+      ],
+      flip: true, // allows this to be flipped (arrow up / down)
+    },
+
+    line5: {
+      value: 4,
+      design: [
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+      ],
+      verticalMove: 2, // allows this pattern to shift vertically
+    },
+
+    line4: {
+      value: 2,
+      design: [
+        [1],
+        [1],
+        [1],
+        [1],
+      ],
+      horizontalMove: 1, // allows this pattern to shift horizontally
+      verticalMove: 2,
+    },
+
+    line3: {
+      value: 1,
+      design: [
+        [1],
+        [1],
+        [1],
+      ],
+      horizontalMove: 2,
+      verticalMove: 2,
+    },
+
+    lineVertical: {
+      value: 1,
+      design: [
+        [1, 1, 1],
+      ],
+      horizontalMove: 4,
+    },
+
+    diagonal: {
+      value: 1,
+      design: [
+        [0, 0, 1],
+        [0, 1, 0],
+        [1, 0, 0],
+      ],
+      flip: true,
+      horizontalMove: 2,
+    },
+  },
+  luck: 1,
+  money: 32,
+  spins: 0,
 }
 
 const symbols = gameData.symbols;
@@ -224,23 +315,104 @@ function generateDisplay(boardSize = 3) {
   console.log("Display Built")
 }
 
-generateDisplay(3) // Generate display by default
+generateDisplay(5) // Generate original display configuration
 
 
 
 
 
-// displayColumns.forEach((column) => {
-
-//   const cell = document.createElement("div")
-//   cell.classList.add("display-unit")
-
-//   const image = document.createElement("img")
-//   image.setAttribute("src", `images/${symbol}.png`)
-//   image.classList.add("slot-icon")
-
-//   cell.appendChild(image)
 
 
-//   column.appendChild(cell) // Append child only adds one child to the dom. Meaning, for each new instance, you need a new child source
-// })
+
+/**==========================================
+ * Slot Machine Scoring System
+ * ==========================================
+ */
+
+
+/**Scoring Patterns:
+ * 
+ * Jackpot
+ * [ x x x x x ]
+ * [ x x x x x ]
+ * [ x x x x x ]
+ * 
+ * Eye
+ * [ o x x x o ]
+ * [ x x o x x ]
+ * [ o x x x o ]
+ * 
+ * Up Arrow
+ * [ o o x o o ]
+ * [ o x o x o ]
+ * [ x o o o x ]
+ * 
+ * Down Arrow
+ * [ x o o o x ]
+ * [ o x o x o ]
+ * [ o o x o o ]
+ * 
+ * Straight 5
+ * [ x x x x x ]
+ * 
+ * Straight 4
+ * [ x x x x ]
+ * 
+ * Straight 3
+ * [ x x x ]
+ * 
+ * Diagonal Up
+ * [ o o x ]
+ * [ o x o ]
+ * [ x o o ]
+ * 
+ * Diagonal Down
+ * [ x o o ]
+ * [ o x o ]
+ * [ o o x ]
+ */
+
+
+// NOTE:
+// 1 = true;
+// 0 = false;
+
+// Pattern Values: -> [0, 0, 1] (1 = true, 2 = false)
+// value: Price
+// design: array
+// flip: true/false
+// horizontalMove: #
+// verticalMove: #
+
+
+/**
+ * Visually announces to the user which symbols are a part of a pattern
+ * @param {string} pattern - Pattern Type
+ * @param {number} columnStart -
+ * @param {number} rowStart - The row to start the pattern
+ */
+function patternAlert(pattern, columnStart, rowStart) {
+  // Start by setting each cell to .cell-scoring
+
+  setTimeout(() => {
+    // Resets the styling of every cell.
+  }, 2000); // 2 second delay
+}
+
+
+/**
+ * Grants the user money when a pattern has been rolled.
+ * @param {string} pattern - The pattern type identified
+ */
+function patternScore(pattern) {
+  // multiply pattern value by symbol value
+}
+
+
+/**
+ * Compares the 2d display array the defined patterns.
+ * Once a pattern is confirmed, send to Pattern Alert and Pattern Score
+ */
+function patternChecker() {
+
+}

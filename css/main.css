@@ -198,10 +198,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 1px;
-}
-
-.display-column:first-child {
-  border-radius: 12px 0 0 12px;
+  bottom: 0;
 }
 
 .display-unit {
