@@ -51,7 +51,7 @@ function lightFlash(duration) {
 
 // Function to cycle the blinking lights
 let lightState = 0;
-function lightCycle () {
+function lightCycle() {
   lights.forEach((light) => {
     light.classList.remove("light-on")
   });
@@ -94,7 +94,7 @@ const gameData = {
   symbols: {
     cherry: {
       image: "images/Cherry.png",
-      population: 8,
+      population: 52,
       value: 4,
     },
     orange: {
@@ -155,7 +155,7 @@ const gameData = {
       horizontalMove: 0,
     },
 
-    arrow: {
+    arrowUp: {
       value: 6,
       design: [
         [0, 0, 1],
@@ -163,6 +163,20 @@ const gameData = {
         [1, 0, 0],
         [0, 1, 0],
         [0, 0, 1],
+      ],
+      flip: true, // allows this to be flipped (arrow up / down)
+      verticalMove: 0,
+      horizontalMove: 0,
+    },
+    
+    arrowDown: {
+      value: 6,
+      design: [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [0, 1, 0],
+        [1, 0, 0],
       ],
       flip: true, // allows this to be flipped (arrow up / down)
       verticalMove: 0,
@@ -394,6 +408,8 @@ generateDisplay(3) // Generate original display configuration
 function patternAlert(pattern, columnStart, rowStart) {
   // Start by setting each cell to .cell-scoring
 
+  console.log(`Location: Col: ${columnStart+1} , Row: ${rowStart+1}`)
+
   setTimeout(() => {
     // Resets the styling of every cell.
   }, 2000); // 2 second delay
@@ -404,8 +420,11 @@ function patternAlert(pattern, columnStart, rowStart) {
  * Grants the user money when a pattern has been rolled.
  * @param {string} pattern - The pattern type identified
  */
-function patternScore(pattern) {
-  // multiply pattern value by symbol value
+function patternScore(pattern, symbol) {
+  console.log(" ")
+  console.log("You got a")
+  console.log(symbol + " " + pattern)
+  
 }
 
 
@@ -414,64 +433,133 @@ function patternScore(pattern) {
  * Once a pattern is confirmed, send to Pattern Alert and Pattern Score
  */
 patternChecker()
-function patternChecker() {
+function patternChecker(pattern, colStart, rowStart, length) {
 
+  down();
+  function down() {
+    for (let col = 0; col < 5; col++) {
+      let symbol = "";
+      let count = 1;
 
-  // NOTE:
-  // 1 = true;
-  // 0 = false;
+      for (let row = 0; row < 3; row++) {
+        if (row === 0 && col == 0) {
+          symbol = currentPattern[col][row];
+        } else if (currentPattern[col][row] === symbol) {
+          count++
+        } else { // Pattern Broke :(
+          count = 1
+        }
+        symbol = currentPattern[col][row];
+      }
 
-  // Pattern Values: -> [0, 0, 1] (1 = true, 2 = false)
-  // value: Price
-  // design: array
-  // flip: true/false
-  // horizontalMove: #
-  // verticalMove: #
+      if (count >= 3) {
+        patternScore("vertical", symbol)
+        patternAlert("line3", col, 0);
+      }
+      count = 1;
 
-  // Alright, hope you're ready... cuz this is about to get fricking complicated...
-  for (const symbol in symbols) {
-    
-    for (const pattern in patterns) {
+    }
+  }
 
-      const patternName = pattern;
-      const design = patterns[pattern].design;
-      const price = patterns[pattern].price;
-      const flip = patterns[pattern].flip;
-      const horizontalMove = patterns[pattern].horizontalMove;
-      const verticalMove = patterns[pattern].verticalMove;
+  across();
+  function across() {
+    for (let row = 0; row < 3; row++) {
 
-      const designWidth = design[0].length;
-      const designHeight = design.length;
-      
+      let symbol = "";
+      let count = 1;
 
-      console.log(pattern)
-      for (let columnMove = 0; columnMove < verticalMove+1; columnMove++) {
-        for (let rowMove = 0; rowMove < horizontalMove+1; rowMove++) {
+      for (let col = 0; col < 5; col++) {
 
-          const result = filter();
-          function filter() {
-            for (let column = columnMove; column < designWidth - columnMove; column++) {
-              for (let row = rowMove; row < designHeight - rowMove; row++) {
-                if (currentPattern[column][row] !== symbol) {
-                  console.log("BROKEN")
-                  return false;
-                }
-              }
-            }
-            return true;
+        if (row === 0 && col == 0) {
+          symbol = currentPattern[col][row];
+        } else if (currentPattern[col][row] === symbol) {
+          count++
+        } else { // Pattern Broke :(
+          if (count >= 3) {
+            acrosslength(col-count);
           }
-          
-          if (result) {
-            console.log("SUCCESS")
-            console.log(`${symbol}, ${patternName} at ${columnMove} ${rowMove} `)
+          count = 1
+        }
+        symbol = currentPattern[col][row];
+
+      }
+      if (count >= 3) {
+        acrosslength();
+      }
+      count = 1;
+
+      function acrosslength(col = null) {
+        if (col != null) {
+          if (count === 5) {
+            patternScore("line5", symbol)
+            patternAlert("line3", col, row)
+          } else if (count === 4) {
+            patternScore("line4", symbol)
+            patternAlert("line4", col, row)
+          } else {
+            patternScore("line3", symbol)
+            patternAlert("line3", col, row)
           }
-          
+        } else {
+          if (count === 5) {
+            patternScore("line5", symbol)
+            patternAlert("line3", 0, row)
+          } else if (count === 4) {
+            patternScore("line4", symbol)
+            patternAlert("line4", 1, row)
+          } else {
+            patternScore("line3", symbol)
+            patternAlert("line3", 2, row)
+          }
+        }
+      }
+    }
+  }
 
-        } //Horizontal Flip End
-      } // Vertical Flip End
-
-    } // Pattern End
-
-  } // Symbol End
+  diagonal();
+  function diagonal() {
     
+  }
+
+  arrows()
+  function arrows() {
+    const upSymbol = currentPattern[0][2]
+    const downSymbol = currentPattern[0][0]
+    let valid = true;
+
+    // Up Arrow
+    for (let col = 0; col < 5; col++) {
+      for (let row = 0; row < 3; row++) {
+        if (currentPattern[col][row] != upSymbol) {
+          if (gameData["patterns"]["arrowUp"].design[col][row] == 1) {
+            valid = false;
+          } 
+        }
+      }
+    }
+    if (valid === true) {
+      patternScore("arrowUp", upSymbol)
+      patternAlert("arrowUp")
+    }
+
+    valid = true;
+    // Down Arrow
+    for (let col = 0; col < 5; col++) {
+      for (let row = 0; row < 3; row++) {
+        if (currentPattern[col][row] != downSymbol) {
+          if (gameData["patterns"]["arrowDown"].design[col][row] == 1) {
+            valid = false;
+          }
+        }
+      }
+    }
+    if (valid === true) {
+      patternScore("arrowDown", downSymbol)
+      patternAlert("arrowDown")
+    }
+  }
+
+
+
+
 }
